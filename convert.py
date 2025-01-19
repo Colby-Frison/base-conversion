@@ -28,6 +28,23 @@ def fromBaseTen(num):
             ans += str(x)
     return ans
 
+def hextoTen(num):
+    temp = list(num)
+    i = 0
+    digits = []
+    while i < len(temp) :
+        if temp[i].isdigit() :
+            digits.append(int(temp[i]))
+        else :
+            digits.append(int(letterToNumber(temp[i])))
+        i += 1
+    res = 0
+    p = len(digits) - 1
+    for digit in digits:
+        res += int(digit) * 16**p
+        p -= 1
+    return res
+
 # convert base 8 to base 2
 def octalToBinary(num):
     digits = [int(x) for x in str(num)]
@@ -95,22 +112,6 @@ def binarytoHexa(num):
             res += numberToLetter(y)
     return res
 
-# convert base 8 to base 16
-def octaltoHexa(num):
-    b1 = '8'
-    b2 = '2'
-    binary = octalToBinary(int(num))
-    print(binary)
-    b1 = '2'
-    b2 = '16'
-    print(binarytoHexa(binary))
-
-
-# convert base 8 to base 16
-def hexatoOcal(num):
-    binary = hexatoBinary(num)
-    print(binarytoOctal((hexatoBinary(num))))
-
 #------------------------------------------------------------#
 # number <-> letter
 
@@ -145,63 +146,65 @@ def numberToLetter(x):
 
 b1 = input("Enter base of number: ")
 num = input("Enter number: ")
+
+if '.' in num:
+    print("decimal not supported")
+    num = input("Enter number: ")
+
 print("") # create space
 
-b2 = input("Enter base to be converted to: ")
 
+# Converts binary to all other
+if b1 == str(2):
+    print("Binary: " + num)
+    b2 = '8'
+    print("Octal: " + str(binarytoOctal(num)))
+    b2 = '10'
+    print("Decimal: " + str(toBaseTen(int(num))))
+    b2 = '16'
+    print("Hex: " + str(binarytoHexa(num)))
 
-if b2 == str(2) and b1 == str(8) :
-    print(octalToBinary(int(num)))
-
-elif b2 == str(2) and b1 == str(16) :
-    print(hexatoBinary(num))
-
-elif b2 == str(8) and b1 == str(2) :
-    print(binarytoOctal(num))
-
-elif b2 == str(16) and b1 == str(2) :
-    print(binarytoHexa(num))
-
-elif b2 == str(16) and b1 == str(8) :
+# Converts Octal to all other
+elif b1 == str(8):
+    b2 = '2'
+    print("Binary: " + str(octalToBinary(int(num))))
+    print("Octal: " + num)
+    b2 = '10'
+    print("Decimal: " + str(toBaseTen(int(num))))
     b1 = '8'
     b2 = '2'
     binary = octalToBinary(int(num))
     b1 = '2'
     b2 = '16'
-    print(binarytoHexa(binary))
+    print("Hex: " + str(binarytoHexa(binary)))
 
-elif b2 == str(8) and b1 == str(16) :
-    b1 = '16'
+# Converts decimal to all other
+elif b1 == str(10):
+    b2 = '2'
+    print("Binary: " + fromBaseTen(int(num)))
+    b2 = '8'
+    print("Octal: " + fromBaseTen(int(num)))
+    print("Decimal: " + num)
+    b2 = '16'
+    print("Hex: " + fromBaseTen(int(num)))
+
+# Converts hex to all other
+elif b1 == str(16):
     b2 = '2'
     binary = hexatoBinary(num)
+    print("Binary: " + str(binary))
     b1 = '2'
     b2 = '8'
-    print(binarytoOctal(binary))
-
-# converting non-base 10 to base 10
-elif b2 == str(10) :
-    print(toBaseTen(int(num)))
-
-# converting base 10 to non base 10
-elif b1 == str(10) :
-    print(fromBaseTen(int(num)))
+    print("Octal: " + str(binarytoOctal(binary)))
+    b2 = '10'
+    print("Decimal: " + str(hextoTen(num)))
+    b2 = '16'
+    print("Hex: " + num)
 
 else :
     print("bro")
 
-
-
-# Converting between two bases that arent base 2 or 10
-
 """
-two ways to do this one way is to onvert to base 2 as an inermidiary
-the other is to convert to base 10 as an inermidary
-
-which one it goes to should be reiant on whichever one requires less computation/lighter computation
-"""
-
-"""
-
 Check list
 
 [x] From base 10
