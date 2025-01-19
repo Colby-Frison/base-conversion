@@ -46,6 +46,8 @@ def octalToBinary(num):
 
         res += toBaseTwo(digit).zfill(3)
     ans = ""
+    if res[0] == str(0) :
+        res.pop(0)
     for x in res:
         ans += str(x)
     print(ans)
